@@ -1,0 +1,16 @@
+Setup vim to use GNU global for auto completion.
+
+Prerequistes:
+
+1. GNU global
+2. AutoCompPop plugin
+
+Setup:
+
+Copy functions from vimrc_gtags_completion into your vimrc file.
+The omnifunc will provide completion based on gtags and SuperCleverTab helps when AutoCompPop entries are not the one you are looking for.
+
+Usage:
+
+AutoCompPop provides completion as you type and in case none of them make sense, just press <TAB> and you will get gtags based completion. It's that simple.
+

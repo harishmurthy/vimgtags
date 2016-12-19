@@ -1,0 +1,43 @@
+syntax on 
+filetype on
+
+fun! CompleteWithGtags(findstart, base)
+  if a:findstart
+    " locate the start of the word
+    let line = getline('.')
+    let start = col('.') - 1
+    while start > 0 && line[start - 1] =~ '[a-zA-Z0-9_]'
+      let start -= 1
+    endwhile
+    return start
+  else
+    if strlen(a:base)
+      " find months matching with "a:base"
+      let gtagsres = system("global -axc " . a:base)
+      return split(gtagsres)
+    else
+      return ''
+  endif
+endfun
+autocmd filetype c setlocal omnifunc=CompleteWithGtags
+
+function! SuperCleverTab()
+    if strpart(getline('.'), 0, col('.') - 1) =~ '^\s*$'
+        return "\<Tab>"
+    else
+        if &omnifunc != ''
+            return "\<C-X>\<C-O>"
+        elseif &dictionary != ''
+            return "\<C-K>"
+        else
+            return "\<C-N>"
+        endif
+    endif
+endfunction
+
+inoremap <Tab> <C-R>=SuperCleverTab()<cr>
+
+let g:Gtags_Auto_Update = 1
+nnoremap <leader>] :Gtags<space>
+nnoremap <leader>[ :GtagsCursor<CR>
+
